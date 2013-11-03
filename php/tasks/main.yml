@@ -1,0 +1,22 @@
+---
+- name: Install php-fpm and deps
+  apt: pkg=php5-fpm state=present
+
+- name: Install php-curl and deps
+  apt: pkg=php5-curl state=present
+
+- name: Install php-mysql and deps
+  apt: pkg=php5-mysql state=present
+
+- name: Install php5-xdebug and deps
+  apt: pkg=php5-xdebug state=present
+
+- name: Install php5-xsl and deps
+  apt: pkg=php5-xsl state=present
+
+- name: Copy php.ini configuration
+  template: src=php.ini dest=/etc/php5/fpm/php.ini
+  notify: restart php5-fpm
+
+- name: Install php-pear
+  apt: pkg=php-pear state=present

@@ -1,0 +1,27 @@
+---
+- name: Install apache
+  apt: pkg=apache2 state=present
+
+- name: Push default virtual host configuration
+  template: src=mySite.dev dest=/etc/apache2/sites-available/mySite.dev
+
+- name: Push default virtual host configuration
+  template: src=pma.mySite.dev dest=/etc/apache2/sites-available/pma.mySite.dev
+
+- name: Deactivates the default virtualhost
+  command: a2dissite default
+
+- name: Deactivates the default ssl virtualhost
+  command: a2dissite default-ssl
+
+- name: Enable mod rewrite
+  command: a2enmod rewrite vhost_alias
+  notify: restart apache
+
+- name: Activates our virtualhost
+  command: a2ensite mySite.dev
+  notify: restart apache
+
+- name: Activates our virtualhost
+  command: a2ensite pma.mySite.dev
+  notify: restart apache

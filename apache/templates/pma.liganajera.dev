@@ -1,0 +1,29 @@
+<VirtualHost *:80>
+
+  ServerName pma.{{ server_hostname }}
+
+  CustomLog /var/log/apache2/phpmyadmin-access.log combined
+  ErrorLog /var/log/apache2/phpmyadmin-error.log
+  DocumentRoot /usr/share/phpmyadmin
+
+  <Directory /usr/share/phpmyadmin>
+    AllowOverride none
+    Order allow,deny
+    Allow from all
+
+  </Directory>
+
+  <Directory /usr/share/phpmyadmin/libraries>
+    Order Deny,Allow
+    Deny from All
+  </Directory>
+  <Directory /usr/share/phpmyadmin/setup>
+    Order Deny,Allow
+    Deny from All
+  </Directory>
+  <Directory /usr/share/phpmyadmin/setup/lib>
+    Order Deny,Allow
+    Deny from All
+  </Directory>
+
+</VirtualHost>

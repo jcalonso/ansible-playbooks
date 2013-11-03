@@ -1,0 +1,27 @@
+---
+- name: Install php-fpm and deps (CentOS)
+  yum: name={{ item }} state=present enablerepo=remi,remi-test
+  with_items:
+    - php54w
+    - php54w-fpm
+    - php54w-enchant
+    - php-IDNA_Convert
+    - php54w-mbstring
+    - php54w-mysql
+    - php-PHPMailer
+    - php54w-process
+    - php-simplepie
+    - php54w-xml
+    - php54w-pecl-xdebug
+
+- name: Copy php.ini configuration
+  template: src=php.ini dest=/etc/php.ini
+  notify: restart php-fpm
+
+- name: Copy php-fpm conf
+  template: src=php-fpm.conf dest=/etc/php-fpm.conf
+  notify: restart php-fpm
+
+- name: Copy php-fpm pool config
+  template: src=www.conf dest=/etc/php-fpm.d/
+  notify: restart php-fpm

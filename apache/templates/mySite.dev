@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+
+  ServerName {{ server_hostname }}
+
+  DocumentRoot /var/www/
+
+  Options -Indexes
+
+  ErrorLog /var/log/apache2/error.log
+  TransferLog /var/log/apache2/access.log
+</VirtualHost>

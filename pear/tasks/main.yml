@@ -1,0 +1,61 @@
+- name: Install php-pear
+  yum: name=php-pear state=present
+
+- name: Upgrade pear
+  command: pear upgrade
+  ignore_errors: True
+
+- name: Set auto discover
+  command: pear config-set auto_discover 1
+  ignore_errors: True
+
+- name: Add Channels
+  command: pear channel-discover pear.phpunit.de
+  command: pear channel-discover pear.symfony-project.com
+  command: pear channel-discover components.ez.no
+  command: pear channel-discover pear.symfony.com
+  command: pear channel-discover pear.pdepend.org
+  command: pear channel-discover pear.phpmd.org
+  command: pear channel-discover pear.netpirates.net
+  ignore_errors: True
+
+- name: Upgrade channels
+  command: pear update-channels
+  command: pear upgrade-all
+  ignore_errors: True
+
+- name: Install Yaml
+  command: pear install pear.symfony.com/Yaml
+  ignore_errors: True
+
+- name: Install PHPUnit
+  command: pear install --alldeps pear.phpunit.de/PHPUnit
+  ignore_errors: True
+
+- name: Install PHP_PMD
+  command: pear install --alldeps phpmd/PHP_PMD
+  ignore_errors: True
+
+- name: Install PHP_Depend
+  command: pear install pdepend/PHP_Depend-beta
+  ignore_errors: True
+
+- name: Install phploc
+  command: pear install pear.phpunit.de/phploc
+  ignore_errors: True
+
+- name: Install PHP_CodeSniffer
+  command: pear install PHP_CodeSniffer
+  ignore_errors: True
+
+- name: Install phpcpd
+  command: pear install pear.phpunit.de/phpcpd
+  ignore_errors: True
+
+- name: Install phpqatools
+  command: pear install pear.phpqatools.org/phpqatools
+  ignore_errors: True
+
+- name: Install phpDox
+  command: pear install -f pear.netpirates.net/phpDox-0.5.0
+  ignore_errors: True

@@ -1,0 +1,24 @@
+---
+- name: Install phpMyAdmin with apache2
+  action: apt pkg=phpmyadmin
+
+- name: Empty out default Apache configuration installed by package
+  action: copy content='' mode=0644
+               dest=/etc/apache2/conf.d/phpmyadmin.conf
+  register: result
+
+- name: Restart Apache after installing phpMyAdmin
+  action: service name=apache2 state=restarted
+  when: result.changed
+
+- name: Create the sc_admin database user for phpMyAdmin
+  action: mysql_user name=sc_admin
+                     password=''
+                     priv=sc_production.*:SELECT,INSERT,UPDATE,DELETE
+                     login_user=root
+                     login_password=''
+
+- name: Create configuration for phpMyAdmin
+  action: template src=config.inc.php
+                   dest=/etc/phpmyadmin/config.inc.php
+                   mode=0644
